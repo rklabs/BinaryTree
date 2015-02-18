@@ -22,9 +22,6 @@ class node {
 template <typename T>
 class binary_tree {
  private:
-    std::vector<T> inorder_vec;
-    std::vector<T> preorder_vec;
-    std::vector<T> postorder_vec;
     node<T> *root;
     node<T> *head;
     void insert(T val, node<T> *leaf);
@@ -48,8 +45,12 @@ class binary_tree {
     void morrisInorder(node<T> *leaf);
     void bstToDLL(node<T> *leaf, node<T> *end);
     void printAllPathsFromRootToLeaf(node<T> *leaf);
-
+    void printLeafNodes(node<T> *root);
+    void printEdgeNodes(node<T> *root);
  public:
+    std::vector<T> inorder_vec;
+    std::vector<T> preorder_vec;
+    std::vector<T> postorder_vec;
     binary_tree();
     ~binary_tree();
     void insert(T val);
@@ -68,7 +69,7 @@ class binary_tree {
     T findmax();
     T findmin();
     void delete_node(T val);
-    int isBST();
+    bool isBST();
     void levelorder();
     int sizeOfTree();
     int height();
@@ -77,7 +78,111 @@ class binary_tree {
     void morrisInorder();
     void bstToDLL();
     void printAllPathsFromRootToLeaf();
+    void printLeafNodes();
+    void printEdgeNodes();
 };
+
+
+template <typename T>
+void binary_tree<T>::printEdgeNodes(node<T> *root) {
+    std::deque<node<T> *> btree_queue;
+
+    if (root == nullptr) {
+        std::cout << "Tree is empty\n";
+        return;
+    }
+
+    std::cout << root->val << " ";
+
+    btree_queue.push_back(root);
+
+    auto *temp = root->right;
+
+    // Print right most nodes
+    do {
+        if (temp) {
+            std::cout<< temp->val << " ";
+        }
+
+        if (temp->right) {
+            temp = temp->right;
+            std::cout << temp->val << " ";
+        } else if (temp->left) {
+            temp = temp->left;
+            std::cout << temp->val << " ";
+        } else if (temp->right == nullptr && temp->left == nullptr) {
+            temp = nullptr;
+        }
+    } while (temp);
+
+    // Print leaf nodes;
+    printLeafNodes(root);
+
+    // Print left most nodes
+    temp = root->left;
+    do {
+        if (temp) {
+            std::cout<< temp->val << " ";
+        }
+
+        if (temp->right) {
+            temp = temp->right;
+            std::cout << temp->val << " ";
+        } else if (temp->left) {
+            temp = temp->left;
+            std::cout << temp->val << " ";
+        } else if (temp->right == nullptr && temp->left == nullptr) {
+            temp = nullptr;
+        }
+    } while (temp);
+
+    std::cout << "\n";
+}
+
+
+template <typename T>
+void binary_tree<T>::printEdgeNodes() {
+    std::cout << "edge nodes: ";
+    printEdgeNodes(root);
+}
+
+template <typename T>
+void binary_tree<T>::printLeafNodes(node<T> *root) {
+    std::deque<node<T> *> btree_queue;
+
+    if (root == nullptr) {
+        std::cout << "tree is empty\n";
+        return;
+    }
+
+    btree_queue.push_back(root);
+
+    while (!btree_queue.empty()) {
+        auto *temp = btree_queue.back();
+        btree_queue.pop_back();
+
+        // Leaf nodes have both left and right pointers as null
+        if (temp->left == nullptr && temp->right == nullptr) {
+            std::cout << temp->val << " ";
+        } else {
+            if (temp->right) {
+                btree_queue.push_back(temp->right);
+            }
+
+            if (temp->left) {
+                btree_queue.push_back(temp->left);
+            }
+        }
+    }
+    std::cout << "\n";
+}
+
+
+template <typename T>
+void binary_tree<T>::printLeafNodes() {
+    std::cout << "leaf nodes: ";
+    printLeafNodes(root);
+}
 
 template <typename T>
 void binary_tree<T>::printAllPathsFromRootToLeaf(node<T> *leaf) {
@@ -374,7 +479,7 @@ bool binary_tree<T>::isBST(node<T> *leaf, T *prev) {
 }
 
 template <typename T>
-int binary_tree<T>::isBST() {
+bool binary_tree<T>::isBST() {
     T min = 0;
     return isBST(root, &min);
 }

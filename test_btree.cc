@@ -4,8 +4,9 @@
 
 void btree_tests() {
     binary_tree<long> *btree = new binary_tree<long>;
-    std::chrono::time_point<std::chrono::system_clock> start;
-    std::chrono::time_point<std::chrono::system_clock> end;
+    using timepoint = std::chrono::time_point<std::chrono::system_clock>;
+    timepoint start;
+    timepoint end;
     std::chrono::duration<double> elapsed_seconds;
 
     // Set random seed
@@ -69,9 +70,9 @@ void btree_tests() {
     delete btree;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     binary_tree<long> *btree = new binary_tree<long>;
-    std::vector<int> vec{2, 1, 3, 0};
+    std::vector<int> vec{4, 2, 1, 3, 10};
 
     std::cout << "original list: ";
     for (auto iter : vec) {
@@ -83,6 +84,8 @@ int main() {
         btree->insert_nonrecursive(iter);
     }
 
+    btree->printLeafNodes();
+    btree->printEdgeNodes();
     btree->preorder();
     btree->inorder();
     btree->postorder();
