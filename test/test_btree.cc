@@ -1,4 +1,4 @@
-#include "btree.hh"
+#include "../btree.hh"
 
 #define SIZE 1000
 

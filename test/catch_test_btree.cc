@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "btree.hh"
+#include "../btree.hh"
 
 TEST_CASE( "Test insertion", "[insertion]" ) {
     binary_tree<long> *btree = new binary_tree<long>;

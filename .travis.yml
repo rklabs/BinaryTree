@@ -9,7 +9,7 @@ before_install:
 install:
   - sudo apt-get install -qq gcc-4.8 g++-4.8
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-  - g++ -std=c++11 -Wall catch_test_btree.cc -o catch_test
+  - cd test && g++ -std=c++11 -Wall catch_test_btree.cc -o catch_test
 
 script:
   - ./runtest.sh
