@@ -3,7 +3,7 @@
 #include "catch.hpp"
 #include "../btree.hh"
 
-TEST_CASE( "Test insertion", "[insertion]" ) {
+TEST_CASE( "Test btree", "[all cases]" ) {
     binary_tree<long> *btree = new binary_tree<long>;
     std::vector<long> inputVector{4, 2, 1, 3, 10};
     std::vector<long> inorderVector{1, 2, 3, 4, 10};
@@ -33,6 +33,9 @@ TEST_CASE( "Test insertion", "[insertion]" ) {
     REQUIRE( btree->sizeOfTree() == inputVector.size() );
     REQUIRE( btree->height() == 3 );
     REQUIRE( btree->leafCount() == 3 );
+    REQUIRE( btree->search(10) == true );
+    REQUIRE( btree->search(100) == false );
+    REQUIRE( btree->isBST() == true);
 
     delete btree;
 }

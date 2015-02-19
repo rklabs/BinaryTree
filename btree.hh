@@ -37,7 +37,7 @@ class binary_tree {
     node<T> *findmax(node<T> *leaf);
     node<T> *findmin(node<T> *leaf);
     node<T> *delete_node(node<T> *leaf, T val);
-    bool isBST(node<T> *leaf, T *prev);
+    bool isBST(node<T> *root);
     void levelorder(node<T> *leaf);
     int sizeOfTree(node<T> *leaf);
     int height(node<T> *leaf);
@@ -463,26 +463,29 @@ void binary_tree<T>::inorder_nonrecursive() {
 }
 
 template <typename T>
-bool binary_tree<T>::isBST(node<T> *leaf, T *prev) {
-    if (leaf == nullptr) {
-        return false;
-    }
-    if (isBST(leaf->left, prev)) {
-        return true;
-    }
-    if (leaf->val <= *prev) {
-        return true;
-    }
-    *prev = leaf->val;
-    std::cout << *prev << " ";
+bool binary_tree<T>::isBST(node<T> *root) {
+    static node<T> *prev = NULL;
 
-    return isBST(leaf->right, prev);
+    if (root) {
+        if (!isBST(root->left)) {
+            return false;
+        }
+
+        if (prev != nullptr && root->val <= prev->val) {
+            return false;
+        }
+
+        prev = root;
+
+        return isBST(root->right);
+    }
+
+    return true;
 }
 
 template <typename T>
 bool binary_tree<T>::isBST() {
-    T min = 0;
-    return isBST(root, &min);
+    return isBST(root);
 }
 
 template <typename T>
@@ -501,7 +504,8 @@ node<T> *binary_tree<T>::delete_node(node<T> *leaf, T val) {
             leaf->left = delete_node(leaf->left, leaf->val);
         } else {
             auto *temp = leaf;
-            if (temp->left == nullptr && temp->right ==nullptr) {
+            if (temp->left == nullptr &&
+                temp->right == nullptr) {
                 delete temp;
                 return nullptr;
             }

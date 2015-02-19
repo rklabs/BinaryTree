@@ -94,6 +94,8 @@ int main(int argc, char *argv[]) {
 
     btree->morrisInorder();
 
+    std::cout << "isBST " << ( btree->isBST() ? "true" : "false" ) << "\n";
+
     std::cout << "size of tree = " << btree->sizeOfTree() << std::endl;
     std::cout << "height of tree = " << btree->height() << std::endl;
     std::cout << "no. of leaves = " << btree->leafCount() << std::endl;
@@ -130,8 +132,6 @@ int main(int argc, char *argv[]) {
     btree->inorder();
     btree->preorder();
     btree->postorder();
-
-    std::cout << "isBST " << (btree->isBST() ? "Yes" : "No") << std::endl;
 
     btree->bstToDLL();
 
